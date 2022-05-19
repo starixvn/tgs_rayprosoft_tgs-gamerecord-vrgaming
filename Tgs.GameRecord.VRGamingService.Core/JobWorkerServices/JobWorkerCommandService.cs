@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Tgs.GameRecord.VRGamingService.Core.ApplicationServices;
 using Tgs.ServiceUtility;
 
@@ -10,17 +9,17 @@ namespace Tgs.GameRecord.VRGamingService.Core.JobWorkerServices
         private readonly IGameRecordSchedule _gameRecordScheduleService;
         private readonly IGetService<GameRecordQuery, GameRecordResult> _getService;
         private readonly ILogger<JobWorkerCommandService> _logger;
-        private readonly IVRGaming _service;
         private readonly ISystemClock _systemClock;
+        private readonly IUtensil _utensil;
 
         public JobWorkerCommandService(
-            IVRGaming service,
+            IUtensil utensil,
             IGameRecordSchedule gameRecordScheduleService,
             ISystemClock systemClock,
             ILogger<JobWorkerCommandService> logger,
             IGetService<GameRecordQuery, GameRecordResult> getService)
         {
-            _service = service ?? throw new ArgumentNullException(nameof(service));
+            _utensil = utensil ?? throw new ArgumentNullException(nameof(utensil));
             _gameRecordScheduleService = gameRecordScheduleService ?? throw new ArgumentNullException(nameof(gameRecordScheduleService));
             _systemClock = systemClock ?? throw new ArgumentNullException(nameof(systemClock));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -29,9 +28,9 @@ namespace Tgs.GameRecord.VRGamingService.Core.JobWorkerServices
 
         public async ValueTask ExecuteAsync(JobWorkerCommand command, CancellationToken cancellationToken = default)
         {
-            var configuration = await _service.GetSettingConfigurationAsync().ConfigureAwait(false);
+            var configuration = await _utensil.GetSettingConfigurationAsync().ConfigureAwait(false);
 
-            var gameProviderId = await _service.GetGameProviderIdAsync().ConfigureAwait(false);
+            var gameProviderId = await _utensil.GetGameProviderIdAsync().ConfigureAwait(false);
 
             var brandMerchants = configuration.BrandMerchants.Where(x => x.Status);
             foreach (var brand in brandMerchants)

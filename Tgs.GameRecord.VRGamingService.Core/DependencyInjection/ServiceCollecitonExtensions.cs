@@ -32,6 +32,6 @@ public static class ServiceCollecitonExtensions
         .AddGameRecordSchedulesClient(gameRecordSchedulesClientOptions)
         .AddGameProvidersClient(gameProvidersClientOptions)
         .AddScoped<ISystemClock, SystemClock>()
-        .AddTransient<IVRGaming, VRGamingRepository>()
-        .Decorate<IVRGaming>((innerRepository, sp) => ActivatorUtilities.CreateInstance<VRGamingMemoryCacheRepository>(sp, innerRepository, TimeSpan.FromHours(1)));
+        .AddTransient<IUtensil, UtensilGamingRepository>()
+        .Decorate<IUtensil>((innerRepository, sp) => ActivatorUtilities.CreateInstance<UtensilMemoryCacheRepository>(sp, innerRepository, TimeSpan.FromHours(1)));
 }

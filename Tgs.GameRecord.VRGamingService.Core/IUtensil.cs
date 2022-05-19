@@ -3,7 +3,7 @@ using Tgs.GameProviders.QueryServer.Models;
 
 namespace Tgs.GameRecord.VRGamingService.Core
 {
-    public interface IVRGaming
+    public interface IUtensil
     {
         ValueTask<Guid?> BrandGetGameProviderConfigurationIdAsync(Guid brandId, Guid gameProviderId);
 

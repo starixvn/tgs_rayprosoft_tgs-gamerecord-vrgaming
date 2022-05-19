@@ -5,17 +5,17 @@ using Tgs.GameProviders.QueryServer.Models;
 
 namespace Tgs.GameRecord.VRGamingService.Core
 {
-    internal class VRGamingMemoryCacheRepository : IVRGaming
+    internal class UtensilMemoryCacheRepository : IUtensil
     {
         private readonly TimeSpan _absoluteExpirationRelativeToNow;
         private readonly GameRecordInfoOptions _gameRecordInfo;
-        private readonly IVRGaming _lEGaming;
+        private readonly IUtensil _lEGaming;
         private readonly IMemoryCache _memoryCache;
 
-        public VRGamingMemoryCacheRepository(
+        public UtensilMemoryCacheRepository(
             TimeSpan absoluteExpirationRelativeToNow,
             IOptions<GameRecordInfoOptions> options,
-            IVRGaming LEGaming,
+            IUtensil LEGaming,
             IMemoryCache memoryCache)
         {
             _absoluteExpirationRelativeToNow = absoluteExpirationRelativeToNow;
