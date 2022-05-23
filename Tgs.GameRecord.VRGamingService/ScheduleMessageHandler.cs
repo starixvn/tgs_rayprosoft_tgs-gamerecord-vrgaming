@@ -6,13 +6,13 @@ using Tgs.ServiceUtility;
 
 namespace Tgs.GameRecord.VRGamingService
 {
-    internal class VRGamingMessageHandler : IMessageHandler
+    internal class ScheduleMessageHandler : IMessageHandler
     {
-        private readonly ILogger<VRGamingMessageHandler> _logger;
+        private readonly ILogger<ScheduleMessageHandler> _logger;
         private readonly ICommandService<JobWorkerCommand> _service;
 
-        public VRGamingMessageHandler(
-            ILogger<VRGamingMessageHandler> logger,
+        public ScheduleMessageHandler(
+            ILogger<ScheduleMessageHandler> logger,
             ICommandService<JobWorkerCommand> service
             )
         {
@@ -23,7 +23,7 @@ namespace Tgs.GameRecord.VRGamingService
         public ValueTask HandleAsync(ReadOnlyMemory<byte> data, CancellationToken cancellationToken = default)
         {
             var json = Encoding.UTF8.GetString(data.Span);
-            var messageModel = JsonSerializer.Deserialize<VRGamingMessageModel>(json);
+            var messageModel = JsonSerializer.Deserialize<ScheduleMessageModel>(json);
 
             if (messageModel == null)
             {

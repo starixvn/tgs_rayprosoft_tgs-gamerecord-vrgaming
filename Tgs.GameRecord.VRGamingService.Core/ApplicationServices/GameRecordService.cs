@@ -58,7 +58,7 @@ namespace Tgs.GameRecord.VRGamingService.Core.ApplicationServices
                 ? new GameRecordResult
                 {
                     Success = false,
-                    LastGameRecorTime = _lastGameRecordTime,
+                    LastGameRecordTime = _lastGameRecordTime,
                     SuccessCount = _successCount,
                     FailCount = _failCount,
                     Count = _count
@@ -66,7 +66,7 @@ namespace Tgs.GameRecord.VRGamingService.Core.ApplicationServices
                 : new GameRecordResult
                 {
                     Success = true,
-                    LastGameRecorTime = _lastGameRecordTime,
+                    LastGameRecordTime = _lastGameRecordTime,
                     SuccessCount = _successCount,
                     FailCount = _failCount,
                     Count = _count
@@ -180,10 +180,7 @@ namespace Tgs.GameRecord.VRGamingService.Core.ApplicationServices
                         messageRequest.ToBson(),
                         cancellationToken).ConfigureAwait(false);
 
-                    if (success)
-                    {
-                        _lastGameRecordTime = data.ExternalClosedOn.HasValue ? data.ExternalClosedOn : data.ExternalCreatedOn;
-                    }
+                    _lastGameRecordTime = data.ExternalClosedOn.HasValue ? data.ExternalClosedOn : data.ExternalCreatedOn;
                 }
             }
         }

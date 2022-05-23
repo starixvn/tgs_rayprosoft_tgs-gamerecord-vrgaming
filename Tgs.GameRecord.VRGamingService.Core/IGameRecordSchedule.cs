@@ -10,6 +10,6 @@ namespace Tgs.GameRecord.VRGamingService.Core
 
         ValueTask<GameRecordScheduleReply?> InitAsync(Guid gameProviderId, string brandCode, string merchantid, CancellationToken cancellationToken = default);
 
-        ValueTask<GameRecordScheduleReply?> UpdateAsync(GameRecordScheduleReply gameProviderSchedule, DateTimeOffset? lastGameRecorTime, DateTimeOffset sysTime, CancellationToken cancellationToken = default);
+        ValueTask<GameRecordScheduleReply?> UpdateAsync(GameRecordScheduleReply gameProviderSchedule, DateTimeOffset? lastGameRecordTime, DateTimeOffset sysTime, CancellationToken cancellationToken = default);
     }
 }
