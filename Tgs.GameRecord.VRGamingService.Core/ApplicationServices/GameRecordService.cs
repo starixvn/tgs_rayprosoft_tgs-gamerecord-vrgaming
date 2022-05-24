@@ -16,7 +16,7 @@ namespace Tgs.GameRecord.VRGamingService.Core.ApplicationServices
         private readonly string _subject;
         private readonly IUtensil _utensil;
         private int _count;
-        private int _failCount;
+        private int _failureCount;
         private DateTimeOffset? _lastGameRecordTime;
         private int _successCount;
 
@@ -39,7 +39,7 @@ namespace Tgs.GameRecord.VRGamingService.Core.ApplicationServices
         {
             _count = 0;
             _successCount = 0;
-            _failCount = 0;
+            _failureCount = 0;
             _lastGameRecordTime = default;
             var unsettled = await GetGameRoundAsync(query, query.BrandCode, false, cancellationToken);
             if (!unsettled)
@@ -48,7 +48,7 @@ namespace Tgs.GameRecord.VRGamingService.Core.ApplicationServices
                 {
                     Success = false,
                     SuccessCount = _successCount,
-                    FailCount = _failCount,
+                    FailureCount = _failureCount,
                     Count = _count
                 };
             }
@@ -60,7 +60,7 @@ namespace Tgs.GameRecord.VRGamingService.Core.ApplicationServices
                     Success = false,
                     LastGameRecordTime = _lastGameRecordTime,
                     SuccessCount = _successCount,
-                    FailCount = _failCount,
+                    FailureCount = _failureCount,
                     Count = _count
                 }
                 : new GameRecordResult
@@ -68,7 +68,7 @@ namespace Tgs.GameRecord.VRGamingService.Core.ApplicationServices
                     Success = true,
                     LastGameRecordTime = _lastGameRecordTime,
                     SuccessCount = _successCount,
-                    FailCount = _failCount,
+                    FailureCount = _failureCount,
                     Count = _count
                 };
         }
@@ -144,7 +144,7 @@ namespace Tgs.GameRecord.VRGamingService.Core.ApplicationServices
                     }
                     else
                     {
-                        _failCount++;
+                        _failureCount++;
                     }
 
                     var messageRequest = new GameRoundMessageRequest()
