@@ -88,33 +88,29 @@ namespace Tgs.GameRecord.VRGamingService.Core.ApplicationServices
             while (true)
             {
                 var response = await _client.VRGameRecordListAsync(
-                    brandCode,
-                    isUpdateTime,
-                    query.StartTime,
-                    query.EndTime,
-                    page,
-                    rows
-                    )
-                    .ConfigureAwait(false);
+                    brandCode: brandCode,
+                    isUpdateTime: isUpdateTime,
+                    startTime: query.StartTime,
+                    endTime: query.EndTime,
+                    page: page,
+                    rows: rows,
+                    cancellationToken: cancellationToken).ConfigureAwait(false);
 
                 if (response == null || !response.Success)
                 {
                     return false;
                 }
 
-                if (response.Success && response.Datas == null)
-                {
-                    return true;
-                }
+                var datas = response.Datas ?? Enumerable.Empty<GameRecordModle>();
 
-                if (response.Datas!.Length == 0)
+                if (!datas.Any())
                 {
                     return true;
                 }
 
                 page++;
 
-                foreach (var data in response.Datas)
+                foreach (var data in datas)
                 {
                     _count++;
 

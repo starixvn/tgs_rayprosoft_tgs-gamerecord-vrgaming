@@ -5,12 +5,12 @@ using Tgs.GameProviders.QueryServer.Models;
 
 namespace Tgs.GameRecord.VRGamingService.Core
 {
-    internal class UtensilGamingRepository : IUtensil
+    internal class UtensilRepository : IUtensil
     {
         private readonly IGameProvidersQueryServerClient _client;
         private readonly GameRecordInfoOptions _gameRecordInfo;
 
-        public UtensilGamingRepository(
+        public UtensilRepository(
             IGameProvidersQueryServerClient client,
             IOptions<GameRecordInfoOptions> options)
         {
