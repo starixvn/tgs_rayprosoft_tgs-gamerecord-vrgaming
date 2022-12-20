@@ -67,33 +67,6 @@ builder.Services.AddGameRecordCore((options, sp) =>
 
 builder.Services
     .AddMessageQueue()
-    .AddRabbitMessageQueue(config =>
-    {
-        _ = config
-            .ConfigQueueOptions((options, sp) =>
-            {
-                var configuration = sp.GetRequiredService<IConfiguration>();
-
-                configuration.GetSection("RabbitMQ").Bind(options);
-
-                options.OnSetupQueueAndExchange = channel =>
-                {
-                    _ = channel.QueueDeclare(
-                        queue: "gp.gamerecord.vr",
-                        durable: true,
-                        exclusive: false,
-                        autoDelete: false,
-                        arguments: null);
-
-                    channel.QueueBind(
-                        "gp.gamerecord.vr",
-                        "amq.direct",
-                        $"tgs.gp.gamerecord.vr",
-                        new Dictionary<string, object>());
-                };
-            })
-            .AddHandler<ScheduleMessageHandler>("gp.gamerecord.vr", false);
-    })
     .AddMongoMessageQueue(config =>
     {
         _ = config
@@ -102,19 +75,20 @@ builder.Services
             sp => new MongoMessageQueueBuilderOptions
             {
                 MessageQueue = MongoMessageQueue.Default,
-                ConnectionString = sp.GetRequiredService<IConfiguration>().GetConnectionString("MongoMessaging")
+                ConnectionString = sp.GetRequiredService<IConfiguration>().GetConnectionString("MongoMessaging")!
             });
     })
-     .AddNatsMessageQueue(natsConfig =>
-     {
-         _ = natsConfig
-         .ConfigQueueOptions((options, sp) =>
-         {
-             var configuration = sp.GetRequiredService<IConfiguration>();
-             options.Url = configuration.GetConnectionString("Nats");
-         })
-         .AddProcessor<ManualMessageHandler>("gp.gamerecord.manual.vr", "gp.gamerecord.manual");
-     })
+    .AddNatsMessageQueue(natsConfig =>
+    {
+        _ = natsConfig
+        .ConfigQueueOptions((options, sp) =>
+        {
+            var configuration = sp.GetRequiredService<IConfiguration>();
+            options.Url = configuration.GetConnectionString("Nats")!;
+        })
+        .AddHandler<ScheduleMessageHandler>("gp.gamerecord.schedule.vr", "gp.gamerecord.schedule")
+        .AddProcessor<ManualMessageHandler>("gp.gamerecord.manual.vr", "gp.gamerecord.manual");
+    })
     .ClearAllExchanges()
     .AddMongoGlobPatternExchange("tgs.gp.gamerecord.database.round.vr", "gp.gamerecord.database", "tgs.gp.gamerecord.database.round.vr");
 
