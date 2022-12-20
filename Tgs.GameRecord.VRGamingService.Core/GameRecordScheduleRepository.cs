@@ -7,8 +7,8 @@ namespace Tgs.GameRecord.VRGamingService.Core
 {
     internal class GameRecordScheduleRepository : IGameRecordSchedule
     {
-        private readonly GameRecordInfoOptions _gameRecordInfo;
         private readonly IGameRecordSchedulesClient _client;
+        private readonly GameRecordInfoOptions _gameRecordInfo;
         private readonly ISystemClock _systemClock;
 
         public GameRecordScheduleRepository(
