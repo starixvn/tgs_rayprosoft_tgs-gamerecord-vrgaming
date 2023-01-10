@@ -1,18 +1,27 @@
-﻿using Tgs.GameProviders.Domains.SettingConfiguration;
-using Tgs.GameProviders.QueryServer.Models;
+﻿using Tgs.GameCommand.Common;
+using Tgs.GameProviders.Domains.SettingConfiguration;
 
-namespace Tgs.GameRecord.VRGamingService.Core
+namespace Tgs.GameRecord.VRGamingService.Core;
+
+public interface IUtensil
 {
-    public interface IUtensil
-    {
-        ValueTask<Guid?> BrandGetGameProviderConfigurationIdAsync(Guid brandId, Guid gameProviderId);
+    ValueTask<Guid?> GetBrandGameProviderConfigurationIdAsync(
+        Guid brandId,
+        Guid gameProviderId,
+        CancellationToken cancellationToken = default);
 
-        ValueTask<int?> GetGameIdAsync(Guid gameProviderId, string gameExternalId);
+    ValueTask<int?> GetGameIdAsync(
+        Guid gameProviderId,
+        string gameExternalId,
+        CancellationToken cancellationToken = default);
 
-        ValueTask<Guid> GetGameProviderIdAsync();
+    ValueTask<Guid> GetGameProviderIdAsync(
+        CancellationToken cancellationToken = default);
 
-        ValueTask<PlayerModel?> GetPlayerAsync(string playerCode);
+    ValueTask<PlayerInfo?> GetPlayerAsync(
+        string playerCode,
+        CancellationToken cancellationToken = default);
 
-        ValueTask<VRConfiguration> GetSettingConfigurationAsync();
-    }
+    ValueTask<VRConfiguration> GetSettingConfigurationAsync(
+        CancellationToken cancellationToken = default);
 }

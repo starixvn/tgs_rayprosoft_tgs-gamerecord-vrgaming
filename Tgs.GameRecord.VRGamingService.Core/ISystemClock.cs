@@ -1,7 +1,6 @@
-﻿namespace Tgs.GameRecord.VRGamingService.Core
+﻿namespace Tgs.GameRecord.VRGamingService.Core;
+
+public interface ISystemClock
 {
-    public interface ISystemClock
-    {
-        DateTimeOffset CurrentTime { get; }
-    }
+    DateTimeOffset CurrentTime { get; }
 }

@@ -1,8 +1,7 @@
-﻿namespace Tgs.GameRecord.VRGamingService
+﻿namespace Tgs.GameRecord.VRGamingService;
+
+public record ScheduleMessageModel
 {
-    public record ScheduleMessageModel
-    {
-        public string GameProviderCode { get; init; } = default!;
-        public DateTimeOffset SendDateTime { get; init; }
-    }
+    public string GameProviderCode { get; init; } = default!;
+    public DateTimeOffset SendDateTime { get; init; }
 }

@@ -1,15 +1,14 @@
 ﻿using Tgs.GameRecordSchedules.Protos;
 
-namespace Tgs.GameRecord.VRGamingService.Core
+namespace Tgs.GameRecord.VRGamingService.Core;
+
+public interface IGameRecordSchedule
 {
-    public interface IGameRecordSchedule
-    {
-        ValueTask<GameRecordScheduleReply?> GetAsync(string brandCode, string merchantid, CancellationToken cancellationToken = default);
+    ValueTask<GameRecordScheduleReply?> GetAsync(string brandCode, string merchantid, CancellationToken cancellationToken = default);
 
-        ScheduleConfig GetConfig(GameRecordScheduleReply gameProviderSchedule);
+    ScheduleConfig GetConfig(GameRecordScheduleReply gameProviderSchedule);
 
-        ValueTask<GameRecordScheduleReply?> InitAsync(Guid gameProviderId, string brandCode, string merchantid, CancellationToken cancellationToken = default);
+    ValueTask<GameRecordScheduleReply?> InitAsync(Guid gameProviderId, string brandCode, string merchantid, CancellationToken cancellationToken = default);
 
-        ValueTask<GameRecordScheduleReply?> UpdateAsync(GameRecordScheduleReply gameProviderSchedule, DateTimeOffset? lastGameRecordTime, DateTimeOffset sysTime, CancellationToken cancellationToken = default);
-    }
+    ValueTask<GameRecordScheduleReply?> UpdateAsync(GameRecordScheduleReply gameProviderSchedule, DateTimeOffset? lastGameRecordTime, DateTimeOffset sysTime, CancellationToken cancellationToken = default);
 }

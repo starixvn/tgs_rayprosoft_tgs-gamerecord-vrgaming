@@ -1,7 +1,6 @@
-﻿namespace Tgs.GameRecord.VRGamingService.Core
+﻿namespace Tgs.GameRecord.VRGamingService.Core;
+
+internal class SystemClock : ISystemClock
 {
-    internal class SystemClock : ISystemClock
-    {
-        public DateTimeOffset CurrentTime => DateTimeOffset.UtcNow;
-    }
+    public DateTimeOffset CurrentTime => DateTimeOffset.UtcNow;
 }

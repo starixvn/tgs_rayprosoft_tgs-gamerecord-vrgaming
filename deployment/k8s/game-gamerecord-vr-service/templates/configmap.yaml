@@ -6,16 +6,17 @@ metadata:
 data:
   appsettings.json: |
     {
-      "GameRecord": {
-        "GameRecordSchedulesBaseUrl": "http://game-gamerecordschedules",
-        "GameProvidersQueryServerBaseUrl": "http://game-gameprovider-queryserver",
-        "GameProvidersBaseUrl": "http://game-gameproviders"
-      },
       "GameRecordInfo": {
         "GameProviderCode": "VR",
         "GameProviderConfiguration": "VRConfiguration",
-        "IntervalMinuteMax": 1440,
-        "IntervalMinute": 10
+        "IntervalMinutes": 10,
+        "IntervalMinutesMax": 1440,
+        "IntervalMinutesMinimum": 1
+      },
+      "GameRecord": {
+        "GameProvidersBaseUrl": "http://game-gameproviders/",
+        "GameCommandClientBaseUrl": "http://game-gamecommand/",
+        "GameRecordSchedulesBaseUrl": "http://game-gamerecordschedules:9090/"
       }
     }
   monitor.settings.json: |
