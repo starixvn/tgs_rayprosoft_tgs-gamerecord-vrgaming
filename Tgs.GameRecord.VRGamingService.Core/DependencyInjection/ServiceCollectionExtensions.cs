@@ -11,8 +11,9 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddGameRecordCore(
        this IServiceCollection services,
        Action<GameRecordInfoOptions, IServiceProvider> gameRecordInfoOptions,
-       Action<GameProvidersClientOptions, IServiceProvider> gameProvidersClientOptions,
        Action<GameCommandClientOptions, IServiceProvider> gameCommandClientOptions,
+       Action<GameProvidersClientOptions, IServiceProvider> gameProvidersClientOptions,
+
        Action<GameRecordSchedulesClientOptions, IServiceProvider> gameRecordSchedulesClientOptions)
         => services
         .AddOptions<GameRecordInfoOptions>()
@@ -21,8 +22,8 @@ public static class ServiceCollectionExtensions
         .RegisterAllServiceUtilityTypes(
             Assembly.GetExecutingAssembly(),
             ServiceLifetime.Transient)
-        .AddGameProvidersClient(gameProvidersClientOptions)
         .AddGameCommandClient(gameCommandClientOptions)
+        .AddGameProvidersClient(gameProvidersClientOptions)
         .AddGameRecordSchedulesClient(gameRecordSchedulesClientOptions)
         .AddMemoryCache()
         .AddGameRoundsWorkClient()

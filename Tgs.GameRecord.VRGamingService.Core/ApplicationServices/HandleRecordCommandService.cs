@@ -1,9 +1,7 @@
 ﻿using System.Text.Json;
-using Tgs.GameRecord.VRGamingService.Core;
 using Tgs.GameRounds.Work.Client;
 using Tgs.GameRounds.Work.Common.Protos;
 using Tgs.ServiceUtility;
-using Tgs.GameRecord.VRGamingService.Core.ApplicationServices;
 
 namespace Tgs.GameRecord.VRGamingService.Core.ApplicationServices;
 

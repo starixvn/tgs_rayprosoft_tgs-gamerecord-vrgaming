@@ -58,12 +58,12 @@ builder.Services
     (options, sp) =>
     {
         var configuration = sp.GetRequiredService<IConfiguration>();
-        options.BaseUrl = configuration.GetValue<Uri>("GameRecord:GameRecordSchedulesBaseUrl")!;
+        options.BaseUrl = configuration.GetValue<Uri>("GameRecord:GameProvidersBaseUrl")!;
     },
     (options, sp) =>
     {
         var configuration = sp.GetRequiredService<IConfiguration>();
-        options.BaseUrl = configuration.GetValue<Uri>("GameRecord:GameProvidersBaseUrl")!;
+        options.BaseUrl = configuration.GetValue<Uri>("GameRecord:GameRecordSchedulesBaseUrl")!;
     });
 
 builder.Services
