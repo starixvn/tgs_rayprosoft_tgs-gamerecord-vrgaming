@@ -3,8 +3,9 @@ using Tgs.GameRecord.VRGamingService.Core;
 using Tgs.GameRounds.Work.Client;
 using Tgs.GameRounds.Work.Common.Protos;
 using Tgs.ServiceUtility;
+using Tgs.GameRecord.VRGamingService.Core.ApplicationServices;
 
-namespace Tgs.GameRecord.TFGamingService.Core.ApplicationServices;
+namespace Tgs.GameRecord.VRGamingService.Core.ApplicationServices;
 
 internal class HandleRecordCommandService : ICommandService<HandleRecordCommand>
 {

@@ -21,10 +21,11 @@ public static class ServiceCollectionExtensions
         .RegisterAllServiceUtilityTypes(
             Assembly.GetExecutingAssembly(),
             ServiceLifetime.Transient)
-        .AddMemoryCache()
         .AddGameProvidersClient(gameProvidersClientOptions)
         .AddGameCommandClient(gameCommandClientOptions)
         .AddGameRecordSchedulesClient(gameRecordSchedulesClientOptions)
+        .AddMemoryCache()
+        .AddGameRoundsWorkClient()
         .AddScoped<ISystemClock, SystemClock>()
         .AddScoped<IGameRecordSchedule, GameRecordScheduleRepository>()
         .AddTransient<IUtensil>(sp => ActivatorUtilities.CreateInstance<UtensilRepository>(sp, TimeSpan.FromHours(1)));

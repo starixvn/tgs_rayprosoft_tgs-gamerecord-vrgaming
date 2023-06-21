@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Tgs.GameProviders.Client;
-using Tgs.GameRecord.TFGamingService.Core.ApplicationServices;
 using Tgs.ServiceUtility;
+using Tgs.GameRecord.VRGamingService.Core.ApplicationServices;
 
 namespace Tgs.GameRecord.VRGamingService.Core.ApplicationServices;
 
