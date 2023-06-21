@@ -8,9 +8,9 @@ namespace Tgs.GameRecord.VRGamingService;
 
 public class ManualMessageHandler : IMessageProcessor
 {
-    private readonly IGetService<GameRecordQuery, GameRecordResult> _service;
+    private readonly IGetService<PullRecordQuery, PullRecordResult> _service;
 
-    public ManualMessageHandler(IGetService<GameRecordQuery, GameRecordResult> service)
+    public ManualMessageHandler(IGetService<PullRecordQuery, PullRecordResult> service)
     {
         _service = service ?? throw new ArgumentNullException(nameof(service));
     }
@@ -20,7 +20,7 @@ public class ManualMessageHandler : IMessageProcessor
         var json = Encoding.UTF8.GetString(data.Span);
         var request = JsonSerializer.Deserialize<ManualMessageRequest>(json)!;
 
-        var result = await _service.GetAsync(new GameRecordQuery()
+        var result = await _service.GetAsync(new PullRecordQuery()
         {
             BrandCode = request.BrandCode,
             StartTime = request.StartTime,
@@ -31,9 +31,6 @@ public class ManualMessageHandler : IMessageProcessor
         {
             Success = result.Success,
             LastGameRecordTime = result.LastGameRecordTime,
-            SuccessCount = result.SuccessCount,
-            FailureCount = result.FailureCount,
-            Count = result.Count
         };
 
         return Encoding.UTF8.GetBytes(JsonSerializer.Serialize(response));
