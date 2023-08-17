@@ -1,14 +1,12 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using Tgs.GameCommand.Client;
-using Tgs.GameCommand.Common;
 using Tgs.GameProviders.Domains.SettingConfiguration;
 
 namespace Tgs.GameRecord.VRGamingService.Core;
 
 internal class UtensilRepository : IUtensil
 {
-    private readonly TimeSpan _absoluteExpirationRelativeToNow;
     private readonly IGameCommandClient _client;
     private readonly GameRecordInfoOptions _gameRecordInfo;
     private readonly IMemoryCache _memoryCache;
@@ -16,67 +14,11 @@ internal class UtensilRepository : IUtensil
     public UtensilRepository(
         IOptions<GameRecordInfoOptions> options,
         IGameCommandClient client,
-        IMemoryCache memoryCache,
-        TimeSpan absoluteExpirationRelativeToNow)
+        IMemoryCache memoryCache)
     {
         _gameRecordInfo = options.Value;
         _client = client ?? throw new ArgumentNullException(nameof(client));
         _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
-        _absoluteExpirationRelativeToNow = absoluteExpirationRelativeToNow;
-    }
-
-    public async ValueTask<Guid?> GetBrandGameProviderConfigurationIdAsync(
-        Guid brandId,
-        Guid gameProviderId,
-        CancellationToken cancellationToken = default)
-    {
-        var key = $"gamerecord:{_gameRecordInfo.GameProviderCode}:{brandId}:{gameProviderId}";
-
-        if (!_memoryCache.TryGetValue(key, out Guid? gameProviderConfigurationId))
-        {
-            gameProviderConfigurationId = await _client
-                .BrandGetGameProviderConfigurationIdAsync(
-                    brandId: brandId,
-                    gameProviderId: gameProviderId,
-                    cancellationToken: cancellationToken)
-                .ConfigureAwait(false);
-
-            if (gameProviderConfigurationId.HasValue)
-            {
-                return _memoryCache
-                    .Set(
-                        key: key,
-                        value: gameProviderConfigurationId,
-                        absoluteExpirationRelativeToNow: _absoluteExpirationRelativeToNow);
-            }
-        }
-        return gameProviderConfigurationId;
-    }
-
-    public async ValueTask<int?> GetGameIdAsync(
-        Guid gameProviderId,
-        string gameExternalId,
-        CancellationToken cancellationToken = default)
-    {
-        var key = $"gamerecord:{_gameRecordInfo.GameProviderCode}:{gameProviderId}:{gameExternalId}";
-        if (!_memoryCache.TryGetValue(key, out int? gameId))
-        {
-            gameId = await _client
-                .GameGetIdAsync(
-                    gameProviderId: gameProviderId,
-                    gameExternalId: gameExternalId,
-                    cancellationToken: cancellationToken)
-                .ConfigureAwait(false);
-
-            if (gameId.HasValue)
-            {
-                return _memoryCache
-                    .Set(
-                        key: key,
-                        value: gameId.Value);
-            }
-        }
-        return gameId;
     }
 
     public async ValueTask<Guid> GetGameProviderIdAsync(
@@ -95,31 +37,6 @@ internal class UtensilRepository : IUtensil
             return _memoryCache.Set(key, gameProviderId);
         }
         return gameProviderId;
-    }
-
-    public async ValueTask<PlayerInfo?> GetPlayerAsync(
-        string playerCode,
-        CancellationToken cancellationToken = default)
-    {
-        var key = $"gamerecord:{_gameRecordInfo.GameProviderCode}:{playerCode}";
-        if (!_memoryCache.TryGetValue(key, out PlayerInfo? playerModel))
-        {
-            playerModel = await _client
-                .PlayerGetAsync(
-                    playerCode: playerCode,
-                    cancellationToken: cancellationToken)
-                .ConfigureAwait(false);
-
-            if (playerModel is not null)
-            {
-                return _memoryCache
-                    .Set(
-                        key: key,
-                        value: playerModel,
-                        absoluteExpirationRelativeToNow: _absoluteExpirationRelativeToNow);
-            }
-        }
-        return playerModel;
     }
 
     public async ValueTask<VRConfiguration> GetSettingConfigurationAsync(

@@ -26,8 +26,8 @@ public static class ServiceCollectionExtensions
         .AddGameProvidersClient(gameProvidersClientOptions)
         .AddGameRecordSchedulesClient(gameRecordSchedulesClientOptions)
         .AddMemoryCache()
-        .AddGameRoundsWorkClient()
+        .AddGameRecordHandleClient()
         .AddScoped<ISystemClock, SystemClock>()
         .AddScoped<IGameRecordSchedule, GameRecordScheduleRepository>()
-        .AddTransient<IUtensil>(sp => ActivatorUtilities.CreateInstance<UtensilRepository>(sp, TimeSpan.FromHours(1)));
+        .AddSingleton<IUtensil, UtensilRepository>();
 }
