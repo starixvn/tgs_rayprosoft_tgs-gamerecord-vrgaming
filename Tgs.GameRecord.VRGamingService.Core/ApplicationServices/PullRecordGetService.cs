@@ -98,7 +98,7 @@ internal class PullRecordGetService : IGetService<PullRecordQuery, PullRecordRes
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, "結算遊戲紀錄發生例外.({record})", data);
+                    _logger.LogError(ex, "LogOn:{logOn} Message: An exception occurred in this game record.({gameRecord})", DateTime.Now.ToString("o"), data);
                 }
             }
         }
