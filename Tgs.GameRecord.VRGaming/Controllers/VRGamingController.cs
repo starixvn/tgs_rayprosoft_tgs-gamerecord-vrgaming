@@ -16,7 +16,7 @@ public class VRGamingController : ControllerBase
     /// <summary>
     /// Games the record asynchronous.
     /// </summary>
-    /// <param name="service">The service.</param>
+    /// <param name="messageSender">The message sender.</param>
     /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
@@ -28,8 +28,8 @@ public class VRGamingController : ControllerBase
     ///             "version": "1.0",
     ///             "merchantid": "PEGA",
     ///             "deskey": "8VF408JBV2B406488F2VH2X684T6R6DV",
-    ///             "startTime": "2023-12-25T11:00:00+08:00",
-    ///             "endTime": "2023-12-25T11:10:00+08:00"
+    ///             "startTime": "2023-12-25T00:00:00+08:00",
+    ///             "endTime": "2023-12-26T00:10:00+08:00"
     ///         }
     /// </remarks>
     [HttpPost]
