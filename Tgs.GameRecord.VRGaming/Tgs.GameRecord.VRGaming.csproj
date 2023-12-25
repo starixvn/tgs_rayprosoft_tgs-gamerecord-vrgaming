@@ -8,6 +8,11 @@
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 	</PropertyGroup>
 
+	<PropertyGroup>
+		<DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+		<NoWarn>$(NoWarn);1591;0063</NoWarn>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<PackageReference Include="FluentdForward.OpenTelemetry.MessagePack" Version="0.3.3" />
 		<PackageReference Include="Hangfire.Core" Version="1.8.6" />
@@ -26,8 +31,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Tgs.GameRecord.VRGaming.Common\Tgs.GameRecord.VRGaming.Common.csproj" />
-	  <ProjectReference Include="..\Tgs.GameRecord.VRGaming.Core\Tgs.GameRecord.VRGaming.Core.csproj" />
+		<ProjectReference Include="..\Tgs.GameRecord.VRGaming.Common\Tgs.GameRecord.VRGaming.Common.csproj" />
+		<ProjectReference Include="..\Tgs.GameRecord.VRGaming.Core\Tgs.GameRecord.VRGaming.Core.csproj" />
 	</ItemGroup>
 
 </Project>
