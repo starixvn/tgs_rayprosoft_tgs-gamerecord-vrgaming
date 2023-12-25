@@ -1,8 +1,8 @@
 variables:
-  ImageName: pgtgs/game-gamerecord-vr-service
-  TgsSettingKey: game-gamerecord-vr-service
-  HelmTemplateFolderName: game-gamerecord-vr-service
-  BuildCacheKey: Tgs.GameRecord.VRGamingService.$CI_PIPELINE_ID
+  ImageName: pgtgs/game-gamerecord-vr
+  TgsSettingKey: game-gamerecord-vr
+  HelmTemplateFolderName: game-gamerecord-vr
+  BuildCacheKey: Tgs.GameRecord.VRGaming.$CI_PIPELINE_ID
 
 default:
   before_script:
@@ -59,7 +59,13 @@ push-docker-image:
     untracked: true   
     policy: pull
   script:
-    - dotnet build "Tgs.GameRecord.VRGamingService/Tgs.GameRecord.VRGamingService.csproj" -c $BuildConfiguration -t:ContainerBuild -p:DockerfileTag="$ImageName:$Tag" --no-restore
+    #- dotnet build "Tgs.GameRecord.VRGaming/Tgs.GameRecord.VRGaming.csproj" -c $BuildConfiguration -t:ContainerBuild -p:DockerfileTag="$ImageName:$Tag" --no-restore
+    - dotnet publish "Tgs.GameRecord.VRGaming" 
+       --os linux --arch x64
+       /t:PublishContainer
+       -c $BuildConfiguration
+       /p:ContainerRepository=$ImageName
+       /p:ContainerImageTag=$Tag
     - docker push $ImageName:$Tag
 
 push-k8s-template:

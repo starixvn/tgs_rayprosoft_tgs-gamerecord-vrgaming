@@ -1,6 +1,6 @@
-# tgs-gamerecord-vrgaming-service
+# tgs-gamerecord-vrgaming
 
-Tgs GameRecord VRGaming Service
+Tgs GameRecord VRGaming
 
 ## Getting started
 
