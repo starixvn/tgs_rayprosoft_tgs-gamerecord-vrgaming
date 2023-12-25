@@ -16,7 +16,7 @@ data:
         "GameProviderConfiguration": "VRConfiguration",
         "HangfirePrefix": "vr-schedule:hangfire:",
         "HangfireLocking": "vr-locking:hangfire:",
-        "IntervalMinutes": 5,
+        "IntervalMinutes": 10,
         "IntervalMinutesMax": 1440,
         "IntervalMinutesMinimum": 1
       },

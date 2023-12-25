@@ -49,7 +49,7 @@ internal class JobExecuteCommandService : ICommandService<JobExecuteCommand>
 
         return _messageSender
             .PublishAsync(
-            subject: "gp.gamerecord.schedule.vr",
+            subject: "gp.gamerecord.vr",
             data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(parameters)),
             cancellationToken: cancellationToken);
     }
