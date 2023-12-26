@@ -4,6 +4,7 @@ using Tgs.GameRecord.Handle.Common.Protos;
 using Tgs.GameRecord.VRGaming.Core.ApplicationServices;
 using Tgs.GameRecord.VRGaming.Core;
 using Tgs.ServiceUtility;
+using System.Text.Json.Nodes;
 
 namespace Tgs.GameRecord.VRGaming.Core.ApplicationServices;
 
@@ -67,7 +68,7 @@ internal class HandleRecordCommandService(
             commission: 0.0m,
             turnover: turnover,
             winLoss: winLoss,
-            additionalData: command.Info.AdditionalData,
+            additionalData: JsonNode.Parse(command.Info.AdditionalData)!,
             cancellationToken: cancellationToken);
     }
 }
