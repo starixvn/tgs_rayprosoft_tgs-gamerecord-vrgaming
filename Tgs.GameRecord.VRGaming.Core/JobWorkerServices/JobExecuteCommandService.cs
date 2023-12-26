@@ -2,9 +2,10 @@
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Tgs.GameRecord.VRGaming.Common;
+
 using Tgs.ServiceUtility;
 using Valhalla.MessageQueue;
-using Tgs.GameRecord.VRGaming.Common;
 
 namespace Tgs.GameRecord.VRGaming.Core.JobWorkerServices;
 
@@ -35,7 +36,7 @@ internal class JobExecuteCommandService : ICommandService<JobExecuteCommand>
         var endTime = DateTimeOffset.ParseExact(DateTimeOffset.UtcNow.ToString(@"yyyy-MM-dd\THH:mm:00K"), @"yyyy-MM-dd\THH:mm:00K", null, styles: System.Globalization.DateTimeStyles.RoundtripKind);
         var startTime = endTime.AddMinutes(_intervalMinutes * -1);
 
-        var parameters = new GameRecordMessage
+        var parameters = new VRGamingGameRecordMessage
         {
             ApiUrl = command.ApiUrl,
             Version = command.Version,
@@ -49,7 +50,7 @@ internal class JobExecuteCommandService : ICommandService<JobExecuteCommand>
 
         return _messageSender
             .PublishAsync(
-            subject: "gp.gamerecord.vr",
+            subject: VRGamingNatsConst.SchedulePublish,
             data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(parameters)),
             cancellationToken: cancellationToken);
     }

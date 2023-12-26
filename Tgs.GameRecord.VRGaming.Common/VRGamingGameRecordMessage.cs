@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Tgs.GameRecord.VRGaming.ViewModels;
+namespace Tgs.GameRecord.VRGaming.Common;
 
-public record GameRecordQueryViewModel
+public record VRGamingGameRecordMessage
 {
     [Required]
     [DataType(DataType.Url)]

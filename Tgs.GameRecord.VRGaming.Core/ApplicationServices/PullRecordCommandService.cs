@@ -6,8 +6,6 @@ internal class PullRecordCommandService(
     ICommandService<PullRecordUnsettledCommand> unsettledService,
     ICommandService<PullRecordSettledCommand> settledService) : ICommandService<PullRecordCommand>
 {
-
-
     public async ValueTask ExecuteAsync(PullRecordCommand command, CancellationToken cancellationToken = default)
     {
         var unsettledCommand = new PullRecordUnsettledCommand(

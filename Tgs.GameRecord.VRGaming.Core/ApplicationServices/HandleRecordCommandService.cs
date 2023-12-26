@@ -1,10 +1,9 @@
-﻿using Microsoft.Extensions.Options;
+﻿using System.Text.Json.Nodes;
+
+using Microsoft.Extensions.Options;
 using Tgs.GameRecord.Handle.Client;
 using Tgs.GameRecord.Handle.Common.Protos;
-using Tgs.GameRecord.VRGaming.Core.ApplicationServices;
-using Tgs.GameRecord.VRGaming.Core;
 using Tgs.ServiceUtility;
-using System.Text.Json.Nodes;
 
 namespace Tgs.GameRecord.VRGaming.Core.ApplicationServices;
 
@@ -16,7 +15,6 @@ internal class HandleRecordCommandService(
 
     public ValueTask ExecuteAsync(HandleRecordCommand command, CancellationToken cancellationToken = default)
     {
-
         var wagerState = WagerStates.Running;
         var bet = command.Info.Bet.ToDecimal().GetValueOrDefault(0);
         var settle = 0.0m;

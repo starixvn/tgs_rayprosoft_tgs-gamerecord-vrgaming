@@ -1,8 +1,9 @@
 ﻿using System.Reflection;
-using Tgs.GameCommand.Client;
-using Tgs.GameRecord.VRGaming.Core;
-using Tgs.GameInterface.VRGaming.Client;
 using StackExchange.Redis;
+
+using Tgs.GameCommand.Client;
+using Tgs.GameInterface.VRGaming.Client;
+using Tgs.GameRecord.VRGaming.Core;
 
 namespace Microsoft.Extensions.DependencyInjection;
 

@@ -5,15 +5,18 @@ namespace Tgs.GameRecord.VRGaming.ViewModels;
 public record PullRecordViewModel
 {
     [Required]
-    public Uri ApiRecordUrl { get; init; } = default!;
+    [DataType(DataType.Url)]
+    public Uri ApiUrl { get; init; } = default!;
+    [Required]
+    public string Version { get; init; } = default!;
+    [Required]
+    public string MerchantId { get; init; } = default!;
     [Required]
     public string Deskey { get; init; } = default!;
     [Required]
-    public string Md5key { get; init; } = default!;
-    [Required]
-    public string AgentId { get; init; } = default!;
-    [Required]
+    [DataType(DataType.DateTime)]
     public DateTimeOffset StartTime { get; init; }
     [Required]
+    [DataType(DataType.DateTime)]
     public DateTimeOffset EndTime { get; init; }
 }

@@ -10,6 +10,7 @@ using OpenTelemetry.Trace;
 using Tgs.GameRecord.VRGaming.Core;
 using Tgs.GameRecord.VRGaming.Messages;
 using Tgs.GameRecord.VRGaming;
+using Tgs.GameRecord.VRGaming.Common;
 
 var filterInstrumentations = new[] { "html", "ico", "png", "jpg" };
 
@@ -101,7 +102,8 @@ builder.Services
             var configuration = sp.GetRequiredService<IConfiguration>();
             options.Url = configuration.GetConnectionString("Nats")!;
         })
-        .AddHandler<GameRecordMessageHandler>("gp.gamerecord.vr", "gp.gamerecord.vr");
+        .AddHandler<GameRecordMessageHandler>(VRGamingNatsConst.SchedulePublish, VRGamingNatsConst.SchedulePublish)
+        .AddHandler<GameRecordMessageHandler>(VRGamingNatsConst.ManualPublish, VRGamingNatsConst.ManualPublish);
     })
     .ClearAllExchanges()
     .AddNatsGlobPatternExchange("*");

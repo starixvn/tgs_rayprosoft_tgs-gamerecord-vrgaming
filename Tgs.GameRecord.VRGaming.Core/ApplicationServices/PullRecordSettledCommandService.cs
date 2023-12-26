@@ -52,7 +52,6 @@ internal class PullRecordSettledCommandService(
 
                 pageNumber++;
             } while (infos.Any());
-
         }
         catch (Exception ex)
         {

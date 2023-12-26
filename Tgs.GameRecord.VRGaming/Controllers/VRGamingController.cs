@@ -1,11 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Tgs.ServiceUtility;
+﻿using System.Text;
+using System.Text.Json;
+
+using Microsoft.AspNetCore.Mvc;
+using Tgs.GameRecord.VRGaming.Common;
 using Tgs.GameRecord.VRGaming.ViewModels;
 using Valhalla.MessageQueue;
-using System.Text;
-using System.Threading;
-using Tgs.GameRecord.VRGaming.Common;
-using System.Text.Json;
 
 namespace Tgs.GameRecord.VRGaming.Controllers;
 
@@ -35,9 +34,9 @@ public class VRGamingController : ControllerBase
     [HttpPost]
     public ValueTask GameRecordAsync(
         [FromServices] IMessageSender messageSender,
-        GameRecordQueryViewModel source)
+        PullRecordViewModel source)
     {
-        var parameters = new GameRecordMessage
+        var parameters = new VRGamingGameRecordMessage
         {
             ApiUrl = source.ApiUrl,
             Version = source.Version,
@@ -48,7 +47,7 @@ public class VRGamingController : ControllerBase
         };
 
         return messageSender.PublishAsync(
-            subject: "gp.gamerecord.vr",
+            subject: VRGamingNatsConst.SchedulePublish,
             data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(parameters)),
             cancellationToken: HttpContext.RequestAborted);
     }
