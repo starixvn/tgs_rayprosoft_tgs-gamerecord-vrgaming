@@ -11,6 +11,7 @@ using Tgs.GameRecord.VRGaming.Core;
 using Tgs.GameRecord.VRGaming.Messages;
 using Tgs.GameRecord.VRGaming;
 using Tgs.GameRecord.VRGaming.Common;
+using NATS.Client.Core;
 
 var filterInstrumentations = new[] { "html", "ico", "png", "jpg" };
 
@@ -93,18 +94,15 @@ builder.Services.AddGameRecord(
     });
 
 builder.Services
-    .AddMessageQueue()
-    .AddNatsMessageQueue(natsConfig =>
+    .AddKeyedSingleton("Nats", (sp, _) => new NatsConnection(NatsOpts.Default with
     {
-        _ = natsConfig
-        .ConfigQueueOptions((options, sp) =>
-        {
-            var configuration = sp.GetRequiredService<IConfiguration>();
-            options.Url = configuration.GetConnectionString("Nats")!;
-        })
-        .AddHandler<GameRecordMessageHandler>(VRGamingNatsConst.SchedulePublish, VRGamingNatsConst.SchedulePublish)
-        .AddHandler<GameRecordMessageHandler>(VRGamingNatsConst.ManualPublish, VRGamingNatsConst.ManualPublish);
-    })
+        Url = builder.Configuration.GetConnectionString("Nats")!
+    }))
+    .AddMessageQueue()
+    .AddNatsMessageQueue(config => config
+    .ConfigureResolveConnection(sp => sp.GetRequiredKeyedService<NatsConnection>("Nats"))
+    .AddHandler<GameRecordMessageHandler>(VRGamingNatsConst.SchedulePublish, VRGamingNatsConst.SchedulePublish)
+    .AddHandler<GameRecordMessageHandler>(VRGamingNatsConst.ManualPublish, VRGamingNatsConst.ManualPublish))
     .ClearAllExchanges()
     .AddNatsGlobPatternExchange("*");
 

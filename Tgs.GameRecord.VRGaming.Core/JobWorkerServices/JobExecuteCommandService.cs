@@ -48,8 +48,7 @@ internal class JobExecuteCommandService : ICommandService<JobExecuteCommand>
 
         _logger.LogInformation("LogOn:{logOn} Parameters:{parameters}", DateTime.Now.ToString("u"), parameters);
 
-        return _messageSender
-            .PublishAsync(
+        return _messageSender.PublishAsync<ReadOnlyMemory<byte>>(
             subject: VRGamingNatsConst.SchedulePublish,
             data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(parameters)),
             cancellationToken: cancellationToken);
