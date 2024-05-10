@@ -9,7 +9,8 @@ data:
       "Logging": {
         "LogLevel": {
           "Default": "Warning",
-          "Tgs.GameRecord.VRGaming.Messages": "Information"
+          "Tgs.GameRecord.VRGaming.Messages": "Information",
+          "Tgs.GameRecord.VRGaming.Core.ApplicationServices.HandleRecordCommandService": "Information"
         }
       },
       "GameRecordInfo": {
