@@ -9,8 +9,10 @@ data:
       "Logging": {
         "LogLevel": {
           "Default": "Warning",
-          "Tgs.GameRecord.VRGaming.Messages": "Information",
-          "Tgs.GameRecord.VRGaming.Core.ApplicationServices.HandleRecordCommandService": "Information"
+          "Grpc.Net.Client.Balancer": "Debug",
+          "Tgs.GameRecord.VRGaming.Messages.ManualMessageHandler": "Warning",
+          "Tgs.GameRecord.VRGaming.Messages.ScheduleMessageHandler": "Warning",
+          "Tgs.GameRecord.VRGaming.Core.ApplicationServices.HandleRecordCommandService": "Warning"
         }
       },
       "GameRecordInfo": {
