@@ -27,7 +27,7 @@ data:
       },
       "GameRecord": {
         "GameCommandClientBaseUrl": "http://game-gamecommand/",
-        "GameInterfaceClientBaseUrl": "http://game-gameinterface-vr:9090/"
+        "GameInterfaceClientBaseUrl": "dns:///game-gameinterface-vr:9090/"
       }
     }
   otel-collector-config.yaml: |
