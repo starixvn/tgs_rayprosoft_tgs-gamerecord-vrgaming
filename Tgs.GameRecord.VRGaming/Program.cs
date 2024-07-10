@@ -63,7 +63,8 @@ builder
 			Prefix = _gameRecordInfo.HangfirePrefix
 		};
 		_ = config
-		.UseRedisStorage(connectionString, options);
+		.UseRedisStorage(connectionString, options)
+		.WithJobExpirationTimeout(TimeSpan.FromMinutes(10));
 	})
 	.AddHangfireServer();
 
@@ -146,10 +147,9 @@ app.UseHangfireDashboard(
 	new DashboardOptions()
 	{
 		Authorization =
-		new[]
-		{
+		[
 			new IgnoreHangfireAuthorizationFilter()
-		}
+		]
 	});
 
 _ = app.UseAuthorization();
