@@ -13,7 +13,7 @@ namespace Tgs.GameRecord.VRGaming.Core.JobWorkerServices;
 internal class JobInitCommandService(
 		ILogger<JobInitCommandService> logger,
 		IOptions<GameRecordInfoOptions> options,
-		IHangfireLock hangfireLock,
+		IHangfireLockRepository hangfireLock,
 		IGameCommandClient client) : ICommandService<JobInitCommand>
 {
 	public async ValueTask ExecuteAsync(JobInitCommand command, CancellationToken cancellationToken = default)
@@ -103,7 +103,7 @@ internal class JobInitCommandService(
 
 				var recurringJobId = $"{gameProviderConfig.Name}|{merchantId}|{gameProviderConfig.GameProviderConfigId}";
 
-				RecurringJob.AddOrUpdate<IHangfireUtensil>(
+				RecurringJob.AddOrUpdate<IHangfireUtensilRepository>(
 					recurringJobId: recurringJobId,
 					methodCall: service => service.JobExecuteAsync(jobExecuteCommand),
 					cronExpression: Cron.Minutely(),
@@ -113,7 +113,7 @@ internal class JobInitCommandService(
 					});
 
 				//初始化強制第一次處理
-				_ = BackgroundJob.Enqueue<IHangfireUtensil>(service => service.JobExecuteAsync(jobExecuteCommand));
+				_ = BackgroundJob.Enqueue<IHangfireUtensilRepository>(service => service.JobExecuteAsync(jobExecuteCommand));
 			}
 		}
 		catch (Exception ex)
@@ -122,7 +122,7 @@ internal class JobInitCommandService(
 		}
 		finally
 		{
-			_ = BackgroundJob.Schedule<IHangfireUtensil>(service => service.JobCheckAsync(), TimeSpan.FromMinutes(1));
+			_ = BackgroundJob.Schedule<IHangfireUtensilRepository>(service => service.JobCheckAsync(), TimeSpan.FromMinutes(1));
 		}
 	}
 }
