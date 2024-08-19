@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgs.GameRecord.VRGaming.Cor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgs.GameRecord.VRGaming.Common", "Tgs.GameRecord.VRGaming.Common\Tgs.GameRecord.VRGaming.Common.csproj", "{7D16176E-993E-45F0-B2E1-FAD2CEB3E6BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tgs.GameRecord.VRGaming.Core.UnitTest", "Tgs.GameRecord.VRGaming.Core.UnitTest\Tgs.GameRecord.VRGaming.Core.UnitTest.csproj", "{436CBC6F-3672-49A1-A0DC-AAF8E371124F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgs.GameRecord.VRGaming.Core.UnitTest", "Tgs.GameRecord.VRGaming.Core.UnitTest\Tgs.GameRecord.VRGaming.Core.UnitTest.csproj", "{436CBC6F-3672-49A1-A0DC-AAF8E371124F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tgs.GameRecord.VRGaming.Repositories", "Tgs.GameRecord.VRGaming.Repositories\Tgs.GameRecord.VRGaming.Repositories.csproj", "{2CA3AB83-307C-47AC-BC3C-3D9E7DD72B7D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{436CBC6F-3672-49A1-A0DC-AAF8E371124F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{436CBC6F-3672-49A1-A0DC-AAF8E371124F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{436CBC6F-3672-49A1-A0DC-AAF8E371124F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CA3AB83-307C-47AC-BC3C-3D9E7DD72B7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CA3AB83-307C-47AC-BC3C-3D9E7DD72B7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CA3AB83-307C-47AC-BC3C-3D9E7DD72B7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CA3AB83-307C-47AC-BC3C-3D9E7DD72B7D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

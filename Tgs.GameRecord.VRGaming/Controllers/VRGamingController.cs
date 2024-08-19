@@ -3,7 +3,6 @@ using System.Text.Json;
 
 using Microsoft.AspNetCore.Mvc;
 using Tgs.GameRecord.VRGaming.Common;
-using Tgs.GameRecord.VRGaming.ViewModels;
 using Valhalla.MessageQueue;
 
 namespace Tgs.GameRecord.VRGaming.Controllers;
@@ -13,42 +12,32 @@ namespace Tgs.GameRecord.VRGaming.Controllers;
 public class VRGamingController : ControllerBase
 {
 	/// <summary>
-	/// Games the record asynchronous.
+	/// Games the record manual asynchronous.
 	/// </summary>
 	/// <param name="messageSender">The message sender.</param>
 	/// <param name="source">The source.</param>
 	/// <returns></returns>
-	/// <remarks>
-	/// <b>Example</b><br />
-	///
-	///     Post
-	///         {
-	///             "apiUrl": "https://fe.vrbetdemo.com/",
-	///             "version": "1.0",
-	///             "merchantid": "PEGA",
-	///             "deskey": "8VF408JBV2B406488F2VH2X684T6R6DV",
-	///             "startTime": "2023-12-25T00:00:00+08:00",
-	///             "endTime": "2023-12-26T00:10:00+08:00"
-	///         }
-	/// </remarks>
-	[HttpPost]
-	public ValueTask GameRecordAsync(
+	[HttpPost("manual")]
+	public ValueTask GameRecordManualAsync(
 		[FromServices] IMessageSender messageSender,
-		PullRecordViewModel source)
-	{
-		var parameters = new VRGamingGameRecordMessage
-		{
-			ApiUrl = source.ApiUrl,
-			Version = source.Version,
-			MerchantId = source.MerchantId,
-			Deskey = source.Deskey,
-			StartTime = source.StartTime,
-			EndTime = source.EndTime
-		};
-
-		return messageSender.PublishAsync(
-			subject: VRGamingNatsConst.SchedulePublish,
-			data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(parameters)),
+		VRGamingGameRecordMessage source)
+		=> messageSender.PublishAsync(
+			subject: VRGamingNatsConst.ManualPublish,
+			data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(source)),
 			cancellationToken: HttpContext.RequestAborted);
-	}
+
+	/// <summary>
+	/// Games the record schedule asynchronous.
+	/// </summary>
+	/// <param name="messageSender">The message sender.</param>
+	/// <param name="source">The source.</param>
+	/// <returns></returns>
+	[HttpPost("schedule")]
+	public ValueTask GameRecordScheduleAsync(
+		[FromServices] IMessageSender messageSender,
+		VRGamingGameRecordMessage source)
+		=> messageSender.PublishAsync(
+			subject: VRGamingNatsConst.SchedulePublish,
+			data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(source)),
+			cancellationToken: HttpContext.RequestAborted);
 }

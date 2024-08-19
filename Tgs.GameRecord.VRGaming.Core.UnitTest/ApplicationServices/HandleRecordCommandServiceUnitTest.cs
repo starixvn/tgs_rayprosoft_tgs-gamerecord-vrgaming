@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using NSubstitute;
 using Tgs.GameInterface.VRGaming.Protos;
+using Tgs.GameRecord.Handle.Client;
 using Tgs.GameRecord.VRGaming.Core.ApplicationServices;
 using Valhalla.MessageQueue;
 
@@ -14,7 +15,7 @@ public class HandleRecordCommandServiceUnitTest
 	public async Task Loss()
 	{
 		var faceLogger = NullLogger<HandleRecordCommandService>.Instance;
-		var gameRecordInfo = Options.Create(new GameRecordInfoOptions
+		var fakeGameRecordInfoOptions = Options.Create(new GameRecordInfoOptions
 		{
 			GameProviderCode = "VR",
 			GameProviderConfiguration = "VRConfiguration",
@@ -24,7 +25,12 @@ public class HandleRecordCommandServiceUnitTest
 			IntervalMinutesMax = 15,
 			IntervalMinutesMinimum = 1
 		});
-		var fakeMessageSender = Substitute.For<IMessageSender>();
+		var fakePolicySettingsOptions = Options.Create(new PolicySettingsOptions
+		{
+			RetryCount = 1,
+			RetrySeconds = 1,
+		});
+		var fakeGameRecordHandleClient = Substitute.For<IGameRecordHandleClient>();
 
 		var command = new HandleRecordCommand(
 			new GameWagerInfo
@@ -44,28 +50,28 @@ public class HandleRecordCommandServiceUnitTest
 				AdditionalData = "{\"ip\":\"27.64.65.203\",\"cost\":500.0,\"note\":\"\",\"odds\":\"16.83\",\"unit\":1.0,\"count\":1,\"state\":2,\"number\":\"03,24\",\"multiple\":500,\"position\":\"Hàng chục,Hàng đơn vị\",\"subState\":0,\"channelId\":105,\"lossPrize\":0.0,\"createTime\":\"2024-03-24T11:08:27Z\",\"playerName\":\"4uml0083b59p\",\"playerOdds\":1980,\"updateTime\":\"2024-03-24T11:33:40Z\",\"betTypeCode\":22013,\"betTypeName\":\"Lô xiên 2\",\"channelCode\":\"HANOIVN\",\"channelName\":\"Hà Nội (miền Bắc)\",\"issueNumber\":\"20240324\",\"playerPrize\":0.0,\"prizeDetail\":[],\"merchantCode\":\"MOVN2\",\"serialNumber\":\"10324190827706073646\",\"merchantPrize\":0.0,\"winningNumber\":\"39,32,09,29,633,713,935,7942,1490,3454,5874,2189,3069,9805,0115,5952,9003,33461,75312,98348,75341,89897,04071,57784,53350,06693,88274\"}"
 			});
 
-		var service = new HandleRecordCommandService(
+		var sut = new HandleRecordCommandService(
 			faceLogger,
-			gameRecordInfo,
-			fakeMessageSender);
+			fakeGameRecordInfoOptions,
+			fakePolicySettingsOptions,
+			fakeGameRecordHandleClient);
 
-		await service.ExecuteAsync(command);
+		await sut.ExecuteAsync(command);
 
-		_ = fakeMessageSender
+		_ = fakeGameRecordHandleClient
 			.Received(1)
-			.PublishAsync(
-			subject: Arg.Is(Handle.Common.GameRecordHandleNatsConst.GameRecordHandleRequest),
-			data: Arg.Is(new Handle.Common.Protos.GameRecordHandleRequest
+			.HandleAsync(
+			source: Arg.Is(new Handle.Common.ViewModels.GameRecordHandleViewModel
 			{
-				GameProviderCode = gameRecordInfo.Value.GameProviderCode,
+				GameProviderCode = fakeGameRecordInfoOptions.Value.GameProviderCode,
 				PlayerCode = command.Info.PlayerCode,
 				ExternalRoundId = command.Info.ExternalRoundId,
 				ExternalBetId = command.Info.ExternalWagerId,
 				ExternalGameId = command.Info.ExternalGameId,
-				ExternalCreatedOn = command.Info.ExternalCreatedOn,
-				ExternalClosedOn = command.Info.ExternalClosedOn,
-				ExternalPayoffOn = command.Info.ExternalClosedOn,
-				ExternalResettleOn = DateTimeOffset.UnixEpoch.ToTimestamp(),
+				ExternalCreatedOn = command.Info.ExternalCreatedOn.ToDateTimeOffset(),
+				ExternalClosedOn = command.Info.ExternalClosedOn.ToDateTimeOffset(),
+				ExternalPayoffOn = command.Info.ExternalClosedOn.ToDateTimeOffset(),
+				ExternalResettleOn = DateTimeOffset.UnixEpoch,
 				BetState = Handle.Common.Protos.BetState.Loss,
 				BetType = Handle.Common.Protos.BetType.Normal,
 				FreeGameState = Handle.Common.Protos.FreeGameState.None,
@@ -89,7 +95,7 @@ public class HandleRecordCommandServiceUnitTest
 	public async Task Win()
 	{
 		var faceLogger = NullLogger<HandleRecordCommandService>.Instance;
-		var gameRecordInfo = Options.Create(new GameRecordInfoOptions
+		var fakeGameRecordInfoOptions = Options.Create(new GameRecordInfoOptions
 		{
 			GameProviderCode = "VR",
 			GameProviderConfiguration = "VRConfiguration",
@@ -99,7 +105,12 @@ public class HandleRecordCommandServiceUnitTest
 			IntervalMinutesMax = 15,
 			IntervalMinutesMinimum = 1
 		});
-		var fakeMessageSender = Substitute.For<IMessageSender>();
+		var fakePolicySettingsOptions = Options.Create(new PolicySettingsOptions
+		{
+			RetryCount = 1,
+			RetrySeconds = 1,
+		});
+		var fakeGameRecordHandleClient = Substitute.For<IGameRecordHandleClient>();
 
 		var command = new HandleRecordCommand(
 			new GameWagerInfo
@@ -119,28 +130,28 @@ public class HandleRecordCommandServiceUnitTest
 				AdditionalData = "{\"ip\":\"27.64.65.203\",\"cost\":2700.0,\"note\":\"\",\"odds\":\"97\",\"unit\":1.0,\"count\":54,\"state\":3,\"number\":\"03,24\",\"multiple\":50,\"position\":\"Hàng chục,Hàng đơn vị\",\"subState\":0,\"channelId\":105,\"lossPrize\":0.0,\"createTime\":\"2024-03-24T11:07:43Z\",\"playerName\":\"4uml0083b59p\",\"playerOdds\":1980,\"updateTime\":\"2024-03-24T11:33:40Z\",\"betTypeCode\":22010,\"betTypeName\":\"2D kiểu đơn-Bao lô\",\"channelCode\":\"HANOIVN\",\"channelName\":\"Hà Nội (miền Bắc)\",\"issueNumber\":\"20240324\",\"playerPrize\":4850.0,\"prizeDetail\":[{\"count\":1,\"number\":\"03\",\"awardName\":\"2D Bao Lô\"}],\"merchantCode\":\"MOVN2\",\"serialNumber\":\"10324190743288681884\",\"merchantPrize\":4850.0,\"winningNumber\":\"39,32,09,29,633,713,935,7942,1490,3454,5874,2189,3069,9805,0115,5952,9003,33461,75312,98348,75341,89897,04071,57784,53350,06693,88274\"}"
 			});
 
-		var service = new HandleRecordCommandService(
+		var sut = new HandleRecordCommandService(
 			faceLogger,
-			gameRecordInfo,
-			fakeMessageSender);
+			fakeGameRecordInfoOptions,
+			fakePolicySettingsOptions,
+			fakeGameRecordHandleClient);
 
-		await service.ExecuteAsync(command);
+		await sut.ExecuteAsync(command);
 
-		_ = fakeMessageSender
+		_ = fakeGameRecordHandleClient
 			.Received(1)
-			.PublishAsync(
-			subject: Arg.Is(Handle.Common.GameRecordHandleNatsConst.GameRecordHandleRequest),
-			data: Arg.Is(new Handle.Common.Protos.GameRecordHandleRequest
+			.HandleAsync(
+			source: Arg.Is(new Handle.Common.ViewModels.GameRecordHandleViewModel
 			{
-				GameProviderCode = gameRecordInfo.Value.GameProviderCode,
+				GameProviderCode = fakeGameRecordInfoOptions.Value.GameProviderCode,
 				PlayerCode = command.Info.PlayerCode,
 				ExternalRoundId = command.Info.ExternalRoundId,
 				ExternalBetId = command.Info.ExternalWagerId,
 				ExternalGameId = command.Info.ExternalGameId,
-				ExternalCreatedOn = command.Info.ExternalCreatedOn,
-				ExternalClosedOn = command.Info.ExternalClosedOn,
-				ExternalPayoffOn = command.Info.ExternalClosedOn,
-				ExternalResettleOn = DateTimeOffset.UnixEpoch.ToTimestamp(),
+				ExternalCreatedOn = command.Info.ExternalCreatedOn.ToDateTimeOffset(),
+				ExternalClosedOn = command.Info.ExternalClosedOn.ToDateTimeOffset(),
+				ExternalPayoffOn = command.Info.ExternalClosedOn.ToDateTimeOffset(),
+				ExternalResettleOn = DateTimeOffset.UnixEpoch,
 				BetState = Handle.Common.Protos.BetState.Win,
 				BetType = Handle.Common.Protos.BetType.Normal,
 				FreeGameState = Handle.Common.Protos.FreeGameState.None,
