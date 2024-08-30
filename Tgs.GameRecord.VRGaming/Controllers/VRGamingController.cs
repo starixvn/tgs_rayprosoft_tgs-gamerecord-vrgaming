@@ -23,7 +23,7 @@ public class VRGamingController : ControllerBase
 		VRGamingGameRecordMessage source)
 		=> messageSender.PublishAsync(
 			subject: VRGamingNatsConst.ManualPublish,
-			data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(source)),
+			data: JsonSerializer.SerializeToUtf8Bytes(source),
 			cancellationToken: HttpContext.RequestAborted);
 
 	/// <summary>
@@ -38,6 +38,6 @@ public class VRGamingController : ControllerBase
 		VRGamingGameRecordMessage source)
 		=> messageSender.PublishAsync(
 			subject: VRGamingNatsConst.SchedulePublish,
-			data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(source)),
+			data: JsonSerializer.SerializeToUtf8Bytes(source),
 			cancellationToken: HttpContext.RequestAborted);
 }
